@@ -6,7 +6,7 @@ public class PointsViewer extends User {
     }
 
     public void viewPoints(SolidPoints solidPoints) {
-        //System.out.println(user.name + " has " + getTotalPoints() + " points.");
+        solidPoints.displayPoints();
     }
 }
 
