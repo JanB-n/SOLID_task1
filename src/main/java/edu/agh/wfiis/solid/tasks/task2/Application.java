@@ -5,16 +5,15 @@ import java.util.List;
 
 class Application {
     public static void main(String[] args) {
-        Manage manage = new Manage();
-        UserWithCoding u1 = new UserWithCoding("JohnDoe", "john.doe@example.com", "password123", 100, true);
-        UserWithCoding jane = new UserWithCoding("jane", "jane.smith@example.com", "pass", 50, false);
+        Manager manager = new Manager();
+        CodingUser JohnDoe = new CodingUser("JohnDoe", "john.doe@example.com", "password123", 100, true);
+        CodingUser jane = new CodingUser("jane", "jane.smith@example.com", "pass", 50, false);
 
-        StringBuilder errors = new StringBuilder();
-        manage.handleUserValidationProcess(u1, errors);
+        StringBuilder errors = JohnDoe.validate();
         if (errors.length() > 0) {
             System.out.println("Validation errors: " + errors);
         }
-        manage.handleUserValidationProcess(jane, errors);
+        errors = jane.validate();
         if (errors.length() > 0) {
             System.out.println("Validation errors: " + errors);
         }
@@ -24,16 +23,16 @@ class Application {
         comments.add("Good naming");
         comments.add("Readable code");
 
-        Order review = manage.handle(u1, comments, "Bob");
-        manage.process(u1.id, review.ref, 10, "Great job, keep it up!");
+        manager.createReview(JohnDoe, comments, "Bob");
+        manager.rateCodingUser(JohnDoe,10, "Great job, keep it up!");
 
         comments.add("LSP violated");
         comments.add("Good naming");
-        Order review2 = manage.handle(jane, comments, "Bob");
-        manage.handleExt(jane, new ArrayList<>(){{this.add("I forgot that ISP violation should be fixed too");}});
-        manage.process(jane.id, review2.ref, 1, "Need some improvement!");
+        manager.createReview(jane, comments, "Bob");
+        manager.updateReview(jane, new ArrayList<>(){{this.add("I forgot that ISP violation should be fixed too");}});
+        manager.rateCodingUser(jane, 1, "Need some improvement!");
 
-        String betterUser = manage.compare(u1, jane);
+        String betterUser = manager.compareCodingUsersPoints(JohnDoe, jane);
         System.out.println("User with better points: " + betterUser);
     }
 }
